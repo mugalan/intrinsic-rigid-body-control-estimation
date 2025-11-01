@@ -1,4 +1,4 @@
-# Intrinsic Almost Global rigid-body PID Control
+# Intrinsic rigid-body PID Control and Extended Kalman Filter
 
 This is a compilation of a set of interactive notes and supplementary material for teaching and learning Mechanics.
 
