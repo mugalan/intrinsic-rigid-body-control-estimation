@@ -1,6 +1,10 @@
 # Intrinsic rigid-body PID Control and Extended Kalman Filter
 
-This is a compilation of a set of interactive notes and supplementary material for teaching and learning Mechanics.
+This is a compilation of a set of interactive notes and supplementary material for intrinsic PID control and DEKF for rigid body motion.
+
+The following repo contains a Lie-Group oriented treatment of classical mechanics and a set of python tools for simulating roigid body motion and the DEKF.
+
+https://github.com/mugalan/classical-mechanics-from-a-geometric-point-of-view
 
 **D. H. S. Maithripala, PhD.**  
 smaithri@eng.pdn.ac.lk  
