@@ -201,10 +201,6 @@ This repository provides a **complete derivation-to-simulation pipeline** for th
 
 It bridges theoretical filtering on manifolds with implementable, numerically robust code — ready for use in **robotics, UAV attitude estimation, and navigation research**.
 
----
-
-Would you like me to make it a bit shorter and more “GitHub landing page–style” (with badges and emojis, e.g. 🚀📘🧩), or keep it as this comprehensive academic-style README?
-
 
 ---
 
