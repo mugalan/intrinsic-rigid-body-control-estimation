@@ -257,44 +257,49 @@ These equations mirror the **standard linear Kalman filter** form but are expres
 
 ---
 
-### ⚙️ Implementation Details
+### ⚙️ Implementation on $SO(3)$
 
 #### **Sensor model**
 
 The simulated IMU provides:
-[
-\Omega_\text{meas} = \Omega_\text{true} + \mathcal{N}(0,\sigma_\omega^2I), \qquad
+$$
+\begin{align}
+\Omega_\text{meas} &= \Omega_\text{true} + \mathcal{N}(0,\sigma_\omega^2I), \qquad
 A_i^\text{meas} = R^\top e_i + \mathcal{N}(0,\sigma_\text{dir}^2I),
-]
-with ( \sigma_\omega ) the per-sample gyro noise and ( \sigma_\text{dir} ) the unit-vector noise.
+\end{align}
+$$
+with $\sigma_\omega$ the per-sample gyro noise and $\sigma_\text{dir}$ the unit-vector noise.
 
 #### **Filter propagation**
 
-[
-\tilde R_k^- = \tilde R_{k-1}\exp(\Delta T,\Omega_{k-1}),
+$$
+\begin{align}
+\widetilde R_k^- &= \widetilde R_{k-1}\exp(\Delta T\Omega_{k-1}),
 \quad
-P_k^- = A P_{k-1}A^\top + G\Sigma_qG^\top,
-]
-where (A = I) and (G = \Delta T,R,\Phi(-\Delta T\Omega)).
+P_k^- = A_{k-1} P_{k-1}A_{k-1}^\top + G_{k-1}\Sigma_qG_{k-1}^\top,
+\end{align}
+$$
+$$
+\begin{align}
+A_{k-1} = I_{3\times 3},\qquad
+G_{k-1} = \Delta T\,\widetilde{R}_{k-1}\Phi(\Delta \widehat{\Omega}_{k-1}),\qquad
+H_k =
+\begin{bmatrix}
+-\widehat{{\widetilde{R}_k^-}^{\top}e_1}\\
+-\widehat{{\widetilde{R}_k^-}^{\top}e_2}
+\end{bmatrix}.
+\end{align}
+$$
 
 #### **Correction**
 
-[
-K_k = P_k^-H_k^\top(H_kP_k^-H_k^\top+\Sigma_m)^{-1}, \qquad
-\tilde R_k = \exp(L(y_k, \tilde y_k^-)),\tilde R_k^-.
-]
+$$
+\begin{align}
+K_k &= P_k^-H_k^\top(H_kP_k^-H_k^\top+\Sigma_m)^{-1}, \qquad
+\widetilde R_k = \exp(L(y_k, \widetilde y_k^-))\widetilde R_k^-.
+\end{align}
+$$
 
-#### **Covariance inflation (rejuvenation)**
-
-To prevent covariance collapse and keep the EKF responsive:
-
-```python
-# Symmetrize and inflate
-P = 0.5 * (P + P.T)
-P = (1.02) * P + 1e-9 * np.eye(3)
-```
-
-This small inflation step is formally justified and ensures long-term numerical stability without restarting the filter.
 
 ---
 
