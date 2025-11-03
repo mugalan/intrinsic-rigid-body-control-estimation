@@ -15,7 +15,9 @@ https://orcid.org/0000-0002-8200-2696
 ---
 ## 🌀 Intrinsic AGLES PID Controller for mechanical system on Lie groups
 
-This repository implements a **geometric AGLES PID controller** for fully actuated rigid body systems evolving on the nonlinear configuration space of a general finite dimensional Lie group. The controller operates in the **momentum space**, enabling coordinate-free tracking of configuration trajectories with provable convergence properties.
+This following notebook implements a **geometric AGLES PID controller** for fully actuated rigid body systems evolving on the nonlinear configuration space of a general finite dimensional Lie group. The controller operates in the **momentum space**, enabling coordinate-free tracking of configuration trajectories with provable convergence properties.
+
+https://github.com/mugalan/intrinsic-rigid-body-control-estimation/blob/main/rigid-body-control/Intrinsic_PID_on_Lie_Groups.ipynb
 
 ### ✒️ Controller Description
 
@@ -193,8 +195,11 @@ The project develops the theory step by step — from stochastic rigid-body kine
 
 ### 📘 Overview
 
-The notebook presents a **geometrically consistent formulation** of the EKF directly on a Lie group (G), following the framework of [Barrau & Bonnabel (2017–2020)](https://arxiv.org/abs/1410.1465).
-Unlike classical EKFs in Euclidean space, this approach respects the **group structure** of rotations and rigid-body motions, yielding **invariant error dynamics** and improved consistency.
+The following notebook presents a **geometrically consistent formulation** of the EKF directly on a Lie group (G), following the framework of [Barrau & Bonnabel (2017–2020)](https://arxiv.org/abs/1410.1465).
+
+https://github.com/mugalan/intrinsic-rigid-body-control-estimation/blob/main/intrinsic-DEKF/RigidBodyIntinsicEKF_DHSM.ipynb
+
+Unlike classical EKFs in Euclidean space, this approach respects the **group structure**, yielding **invariant error dynamics** and improved consistency.
 
 The derivation starts from the discrete Euler form of the kinematic equation:
 $$
