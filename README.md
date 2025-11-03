@@ -13,26 +13,25 @@ https://orcid.org/0000-0002-8200-2696
 
 
 ---
+## 🌀 Intrinsic AGLES PID Controller for mechanical system on Lie groups
 
-## 🌀 Geometric PID Controller on (\mathbb{R}^3 \times SO(3))
-
-This repository implements a **geometric PID controller** for fully actuated rigid body systems evolving on the nonlinear configuration space (\mathbb{R}^3 \times SO(3)). The controller operates in the **spatial momentum space**, enabling coordinate-free tracking of position and orientation trajectories with provable convergence properties.
+This repository implements a **geometric AGLES PID controller** for fully actuated rigid body systems evolving on the nonlinear configuration space of a general finite dimensional Lie group. The controller operates in the **momentum space**, enabling coordinate-free tracking of configuration trajectories with provable convergence properties.
 
 ### ✒️ Controller Description
 
-The control law is derived by lifting classical PID control to the Lie group (\mathbb{R}^3 \times SO(3)), ensuring compatibility with the group structure of rigid body motion. The key components include:
+The control law is derived by lifting classical PID control for a double integrator to the Lie group $G$. The key components include:
 
-* **Right-invariant configuration error**: Defined as ((o_e, R_e) = (o_r - o, R_r R^T)), capturing position and orientation discrepancies between the current and reference trajectories.
+* **Right-invariant configuration error**: Defined as $e = g_r g^{-1}$, capturing the discrepancies between the current and reference trajectories.
 
-* **Momentum-based error dynamics**: The controller is expressed in terms of linear and angular momentum errors ((p_e, \pi_e)), which evolve linearly under the influence of control inputs.
+* **Momentum-based error dynamics**: The controller is expressed in momentum errors $\pi_e$, which evolve linearly under the influence of control inputs.
 
 * **Geometric integral terms**: Integral errors are defined on the configuration space itself, preserving geometric consistency without resorting to local coordinates or quaternions.
 
-* **Quadratic-like error function**: A scalar Lyapunov candidate function is constructed using a trace-based term on (SO(3)), whose gradient defines the proportional action in a group-consistent way.
+* **Quadratic-like error function**: The gradient of a polar Morse function on $G$, defines the proportional action in a group-consistent way.
 
 ### 🚀 Significance
 
-This controller achieves **global coordinate-free tracking** of desired rigid body trajectories, avoiding singularities and ambiguities associated with parameterizations like Euler angles or quaternions.
+This controller achieves **global coordinate-free tracking** of desired rigid body trajectories, avoiding singularities and ambiguities associated with parameterizations of manifolds.
 
 By working directly in the **momentum space** and respecting the geometric structure of the configuration space, the design naturally accommodates:
 
@@ -42,15 +41,135 @@ By working directly in the **momentum space** and respecting the geometric struc
 
 ### 🌍 Almost-Global Convergence
 
-Due to the topological properties of the rotation group (SO(3)), **global asymptotic stabilization** is impossible using continuous state-feedback. However, this controller achieves **almost-global convergence**, meaning:
+Due to the topological properties of most of the Lie groups such as the rotation group $SO(3)$, **global asymptotic stabilization** is impossible using continuous state-feedback. However, this controller achieves **almost-global locally exponential (AGLE) convergence**, meaning:
 
-A key feature of this controller is that it leverages the **linearity of the rigid body momentum equations**. By formulating the dynamics in terms of spatial linear and angular momentum, the control design reduces to applying **standard PID structure** on a linear system — despite the nonlinear configuration space. This dramatically simplifies the controller implementation while preserving geometric correctness.
+A key feature of this controller is that it leverages the **linearity of the momentum equations**. By formulating the dynamics in terms of momentum, the control design reduces to applying **standard PID structure** on a linear system — despite the nonlinear configuration space. This dramatically simplifies the controller implementation while preserving geometric correctness.
 
 
 * The desired configuration is **asymptotically stable** from almost all initial conditions.
-* The only exceptions are a measure-zero set of initial attitudes corresponding to 180° rotations around principal axes — these are **unstable saddle points** of the error function.
+* The only exceptions are a measure-zero set of initial attitudes — these are **unstable saddle points** of the error function.
 
-This is the best possible result achievable with smooth feedback on (SO(3)), making the controller **theoretically optimal** under the constraints of continuous control.
+This is the best possible result achievable with smooth feedback on general Lie groups, making the controller **theoretically optimal** under the constraints of continuous control.
+
+### Summary Derivation
+
+#### Right–Invariant Dynamics
+
+In momentum space a mechanical system on a Lie group $G$ with Lie algebra $\mathfrak{g}$, dual $\mathfrak{g}^*$ and left invarariant kinetic energy takes the form
+$$
+\begin{align}
+\dot{g} = \omega \cdot g, \qquad
+\dot{\pi} = f^e + f^u,
+\end{align}
+$$
+where
+- $g\in G$ is the configuration of the mechanical system
+- $\omega\in \mathfrak{g}$ is the right velocity
+- $\pi=\operatorname{Ad}_{g}^* \mathbb{I}\operatorname{Ad}_{g^{-1}}\omega \in \mathfrak{g}^*$ is the generalized momentum 
+- $\mathbb{I}$ is the constant inertial tensor resulting from the left invariant kinetic energy
+- $ f^e \in \mathfrak{g}^* $ is an external (disturbance) force, and
+- $ f^u \in \mathfrak{g}^* $ is the fully actuated control input.
+
+Note that
+
+$$
+\begin{align}
+\pi_r &= \operatorname{Ad}_{g}^* \mathbb{I}\operatorname{Ad}_{g_r^{-1}}\omega_r
+\end{align}
+$$
+#### Error Dynamics
+Consider the problem of finidng $f^u\in\mathfrak{g}^*$ such that $\lim_{t\to\infty} g(t)=g_r(t)$ for some sufficiently smooth refernce trajectory $g_r(t)\in G$. Let $\omega_r\in \mathfrak{g}$ as $\omega_r=\dot{g}_rg_r^{-1}$.
+
+Define the **right–invariant tracking error**
+$$
+\begin{align}
+e = g_r g^{-1}.
+\end{align}
+$$
+Then:
+$$
+\begin{align}
+\dot{e} &= \omega_e \cdot e, \qquad
+\omega_e &= \omega_r - \operatorname{Ad}_e \omega.
+\end{align}
+$$
+
+Define the **momentum error**
+$$
+\begin{align}
+\pi_e = \operatorname{Ad}_{g}^* \mathbb{I}\operatorname{Ad}_{g_r^{-1}}\omega_e
+       = \operatorname{Ad}_{e^{-1}}^*\pi_r - \pi.
+\end{align}
+$$
+
+The **momentum error dynamics** (with right–invariant kinematics) are:
+$$
+\begin{align}
+\boxed{
+\dot{\pi}_e
+= \operatorname{Ad}_{e^{-1}}^*\dot{\pi}_r
+- \dot{\pi}_i
++ \operatorname{ad}_{\omega_e}^*\operatorname{Ad}_{e^{-1}}^*\pi_r.
+}
+\end{align}
+$$
+
+---
+
+### AGLES–PID Control Law
+
+Let $ f_e : G \to \mathbb{R} $ be a polar Morse function with unique minimum at the identity.  
+Define
+
+$$\begin{align}
+df_e = \pi_e \cdot e, \qquad
+\dot{\pi}_I = \pi_e.
+\end{align}
+$$
+
+The **control law** is:
+$$
+\begin{align}
+f_i^u =
+\left(
+\operatorname{Ad}_{e^{-1}}^*\dot{\pi}_r
++ \operatorname{ad}_{\omega_e}^*\operatorname{Ad}_{e^{-1}}^*\pi_r
+- f_i^e
+\right)
+- k_p\pi_e - k_d\pi_e - k_I\pi_I.
+\end{align}
+$$
+
+The **closed-loop error dynamics** are:
+$$
+\begin{align}
+\dot{e} = \omega_e \cdot e,\\
+\dot{\pi}_I = \pi_e,\\
+\dot{\pi}_e = -k_p\pi_e - k_d\pi_e - k_I\pi_I.
+\end{align}
+$$
+> “The error dynamics do not get any simpler or more straightforward than this.”
+
+
+
+### Mathematical Conventions
+
+**Coadjoint action:**  
+$$
+\begin{align}
+\langle \operatorname{Ad}_g^*\mu, \zeta \rangle = \langle \mu, \operatorname{Ad}_{g^{-1}}\zeta \rangle
+\end{align}
+$$
+
+**Derivative rule:**  
+$$
+\begin{align}
+\frac{d}{dt}(\operatorname{Ad}_{e^{-1}}^*\pi)
+= \operatorname{Ad}_{e^{-1}}^*\dot{\pi}
++ \operatorname{ad}_{\omega_e}^*\operatorname{Ad}_{e^{-1}}^*\pi
+\end{align}
+$$
+
 
 ### References
 
@@ -77,39 +196,47 @@ The project develops the theory step by step — from stochastic rigid-body kine
 The notebook presents a **geometrically consistent formulation** of the EKF directly on a Lie group (G), following the framework of [Barrau & Bonnabel (2017–2020)](https://arxiv.org/abs/1410.1465).
 Unlike classical EKFs in Euclidean space, this approach respects the **group structure** of rotations and rigid-body motions, yielding **invariant error dynamics** and improved consistency.
 
-The derivation starts from:
-[
-g_k = g_{k-1}\exp(\Delta T,\zeta_{k-1}), \quad
-y_k = \phi_{g_k^{-1}}(\gamma) + z_k,
-]
-and constructs a discrete left-invariant observer:
-[
-\tilde g_k^- = \tilde g_{k-1}\exp(\Delta T\zeta_{k-1} + \sqrt{\Delta T}w_{k-1}), \qquad
-\tilde g_k = \exp(L(y_k, \tilde y_k^-)),\tilde g_k^-,
-]
-leading to a **discrete invariant error recursion** on the Lie algebra:
-[
-\eta_k = \eta_{k-1}
+The derivation starts from the discrete Euler form of the kinematic equation:
+$$
+\begin{align}
+g_k &= g_{k-1}\exp(\Delta T\zeta_{k-1}), \quad\\
+y_k &= \phi_{g_k^{-1}}(\gamma) + z_k, \qquad p(z_k)=\mathscr{N}(0,\Sigma_m)
+\end{align}
+$$
 
-* \Phi(\eta_{k-1})!\left(
-  \operatorname{Ad}*{\tilde g*{k-1}}\Phi(-\Delta T\zeta_{k-1})\sqrt{\Delta T},w_{k-1}
-  \right)
 
-- \Phi(\eta_{k-1}),L(y_k,\tilde y_k^-)
+**The discrete invariant error recursion** on the Lie algebra:
 
-* \mathcal{O}(|L|^2, |w|^2).
-  ]
+Prediction (state on the group and covariance):
+$$
+\begin{align}
+\widetilde g_k^- &= \widetilde g_{k-1}\exp{\left(\Delta T\left(\zeta_{k-1}+w_{k-1}\right)\right)},\qquad p(w_{k-1})=\mathscr{N}(0,\Sigma_q),\\
+P_k^- &= A_{k-1} P_{k-1} A_{k-1}^{\top} + G_{k-1}\Sigma_qG_{k-1}^{\top}. 
+\end{align}
+$$
+Here $\Sigma_q$ denotes the process noise covariance (same role as $\Sigma_p$ defined above).
 
-Linearization yields the discrete invariant EKF update equations:
-[
-\eta_k = (A_{k-1} - K_kH_k)\eta_{k-1} + (I - K_kH_k)G_{k-1}w_{k-1} - K_kz_k,
-]
-with:
-[
-A_{k-1} = I, \quad
-G_{k-1} = \sqrt{\Delta T},\operatorname{Ad}*{\tilde g*{k-1}}\Phi(-\Delta T\zeta_{k-1}).
-]
+Predicted output: consistent with the continuous-time relation $\widetilde y=\phi_{\widetilde g^{-1}}(\gamma)$, we use
+$$
+\begin{align}
+\widetilde y_k^- = \phi_{{\widetilde{g}_k^-}^{-1}}(\gamma).
+\end{align}
+$$
 
+Correction (group update and covariance update):
+$$
+\begin{align}
+K_k &= P_k^- H_k^{\top}\big(H_k P_k^- H_k^{\top} + \Sigma_m\big)^{-1}, \\
+P_k &= \big(I - \Delta TK_k H_k\big)P_k^-, \tag{52}\\
+\widetilde g_k &= \exp{\big(L(y_k,\widetilde y_k^-)\big)}\widetilde g_k^-,
+\end{align}
+$$
+$$
+\begin{align}
+A_{k-1}&= I\\
+G_{k-1}&= \Delta T\,\operatorname{Ad}_{\widetilde{g}_{k-1}}\Phi(-\Delta T \zeta_{k-1})
+\end{align}
+$$
 These equations mirror the **standard linear Kalman filter** form but are expressed intrinsically on the Lie group.
 
 ---
