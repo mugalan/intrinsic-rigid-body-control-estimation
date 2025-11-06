@@ -190,13 +190,13 @@ Geometric PID controller for stabilization of nonholonomic mechanical systems on
 ## 🌀 Discrete Invariant Extended Kalman Filter (DEKF) on Lie Groups
 
 This repository contains the **full derivation and simulation of a discrete-time invariant Extended Kalman Filter (EKF)** on Lie groups, implemented and demonstrated in Python/Colab.
-The project develops the theory step by step — from stochastic rigid-body kinematics to the final discrete filter equations — and validates the results through Monte Carlo simulations on (SO(3)).
+The project develops the theory step by step — from stochastic rigid-body kinematics to the final discrete filter equations — and validates the results through Monte Carlo simulations on $SO(3)$)$.
 
 ---
 
 ### 📘 Overview
 
-The following notebook presents a **geometrically consistent formulation** of the EKF directly on a Lie group (G), following the framework of [Barrau & Bonnabel (2017–2020)](https://arxiv.org/abs/1410.1465).
+The following notebook presents a **geometrically consistent formulation** of the EKF directly on a Lie group $G$, following the framework of [Barrau & Bonnabel (2017–2020)](https://arxiv.org/abs/1410.1465).
 
 https://github.com/mugalan/intrinsic-rigid-body-control-estimation/blob/main/intrinsic-DEKF/RigidBodyIntinsicEKF_DHSM.ipynb
 
