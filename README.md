@@ -2,7 +2,7 @@
 
 This is a compilation of a set of interactive notes and supplementary material for intrinsic PID control and DEKF for rigid body motion.
 
-The following repo contains a Lie-Group oriented treatment of classical mechanics and a set of python tools for simulating roigid body motion and the DEKF.
+As a supplement the following repo contains a Lie-Group oriented treatment of classical mechanics and a set of python tools for simulating roigid body motion and the DEKF.
 
 https://github.com/mugalan/classical-mechanics-from-a-geometric-point-of-view
 
@@ -33,7 +33,7 @@ The control law is derived by lifting classical PID control for a double integra
 
 ### 🚀 Significance
 
-This controller achieves **global coordinate-free tracking** of desired rigid body trajectories, avoiding singularities and ambiguities associated with parameterizations of manifolds.
+This controller achieves **almos global coordinate-free tracking** of desired rigid body trajectories, avoiding singularities and ambiguities associated with parameterizations of manifolds.
 
 By working directly in the **momentum space** and respecting the geometric structure of the configuration space, the design naturally accommodates:
 
@@ -45,11 +45,12 @@ By working directly in the **momentum space** and respecting the geometric struc
 
 Due to the topological properties of most of the Lie groups such as the rotation group $SO(3)$, **global asymptotic stabilization** is impossible using continuous state-feedback. However, this controller achieves **almost-global locally exponential (AGLE) convergence**, meaning:
 
-A key feature of this controller is that it leverages the **linearity of the momentum equations**. By formulating the dynamics in terms of momentum, the control design reduces to applying **standard PID structure** on a linear system — despite the nonlinear configuration space. This dramatically simplifies the controller implementation while preserving geometric correctness.
+A key feature of this controller is that it leverages the **linearity of the momentum equations**. By formulating the error dynamics in terms of momentum, the control design reduces to applying a **standard PID structure** on a linear system — despite the nonlinear configuration space. This dramatically simplifies the controller implementation while preserving geometric correctness.
 
 
 * The desired configuration is **asymptotically stable** from almost all initial conditions.
 * The only exceptions are a measure-zero set of initial attitudes — these are **unstable saddle points** of the error function.
+* The convergence is locally exponential.
 
 This is the best possible result achievable with smooth feedback on general Lie groups, making the controller **theoretically optimal** under the constraints of continuous control.
 
