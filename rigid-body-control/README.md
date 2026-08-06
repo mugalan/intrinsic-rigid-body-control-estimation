@@ -18,7 +18,7 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
 ## Mathematical background (brief)
 -------------------------------
 - Configuration space: general Lie group $G$ with Lie algebra $\mathfrak{g}$ and dual $\mathfrak{g}^\star$; for rigid bodies, $G = SE(3)$.
-- Inertia: body inertia operator $\mathbb{I} : \mathfrak{g}  \to \mathfrak{g}^\star$ and $g$-dependent inertia $I_g = {Ad}_{g^{-1}}^\star \mathbb{I} {Ad}_g$.
+- Inertia: body inertia operator $\mathbb{I} : \mathfrak{g}  \to \mathfrak{g}^\star$ and $g$-dependent inertia $I_g = {{Ad}_{g^{-1}}}^\star \mathbb{I} {Ad}_g$.
 - Momentum and angular velocity:
   - $\pi \in \mathfrak{g}^\star$ (spatial momentum), $\Omega \in \mathfrak{g}$ (body angular velocity), $\omega = \mathrm{Ad}_g \Omega$ (spatial angular velocity).
   - $\pi$ and $\omega$ related by $\pi = ({Ad}_g^* \mathbb{I} {Ad}_{g^{-1}}) \omega$.
