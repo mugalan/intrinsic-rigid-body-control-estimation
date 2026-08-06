@@ -421,6 +421,3 @@ Contributions and corrections are welcome. For reproducibility, contributions co
 
 This project is licensed under the [MIT License](../LICENSE).
 
-## Contact
-
-For questions, corrections, or problems reproducing an example, please open an issue in this repository.
