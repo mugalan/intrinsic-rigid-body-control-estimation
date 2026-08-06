@@ -34,9 +34,7 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
   $$\dot{\pi}_I = \pi_e.$$
 
 - The intrinsic PID control law in momentum space (feedforward + feedback) takes the form
-  $$
-  f^u = \text{feedforward terms} - k_p \,\pi_e - k_d \,\dot{\pi}_e - k_I \,\pi_I,
-  $$
+  $$f^u = \text{feedforward terms} - k_p \,\pi_e - k_d \,\dot{\pi}_e - k_I \,\pi_I,$$
   (presented carefully in the notebook with $\mathrm{Ad}$ / $\mathrm{Ad}^*$ transformations so the law is coordinate-free).
 
 - Controlled error dynamics reduce to a standard-looking PID system in the Lie-group setting:
