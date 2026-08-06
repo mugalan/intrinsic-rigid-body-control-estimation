@@ -74,7 +74,7 @@ LaTeX-formatted version:
 
   $$f(o_e,R_e)=\tfrac{1}{2}\Big(o_e^{T}o_e+\mathrm{trace}\big(K(I-R_e)\big)\Big),$$
   
-  with $e_R$ obtained from the matrix derivative (e.g. $\widehat{e}_R={1}{2}(R_e K-KR_e^T)$).
+  with $e_R$ obtained from the matrix derivative (e.g. ${\widehat{e}}_R=\frac{1}{2}(R_e K-KR_e^T)$).
 
 - Feedforward + PID controllers:
   - Translational:
