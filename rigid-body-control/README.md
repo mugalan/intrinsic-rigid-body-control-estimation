@@ -74,12 +74,12 @@ LaTeX-formatted version:
 
   $$f(o_e,R_e)=\tfrac{1}{2}\Big(o_e^{T}o_e+\mathrm{trace}\big(K(I-R_e)\big)\Big),$$
   
-  with $e_R$ obtained from the matrix derivative (e.g. $\widehat{e}_R=\tfrac{1}{2}(R_eK-KR_e^{T})$).
+  with $e_R$ obtained from the matrix derivative (e.g. $\widehat{e}_R=\frac{1}{2}(R_e K-KR_e^T)$).
 
 - Feedforward + PID controllers:
   - Translational:
 
-    $f^{u}=M\ddot{o}_r + k_{P_o}e_o + k_{D_o}p_e + k_{I_o}e_{I_o}.$
+    $$f^u=M\ddot{o}_r + k_{P_o}e_o + k_{D_o}p_e + k_{I_o}e_{I_o}.$$
 
   - Rotational:
 
