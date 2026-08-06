@@ -2,12 +2,12 @@
 Comprehensive notebook and supporting code demonstrating Kalman filters on Euclidean spaces and intrinsic Extended Kalman Filters (EKF) on Lie groups, with simulations for constant-velocity models and intrinsic discrete/continuous-time observers.
 
 This repository collects teaching and research-oriented code (notebooks and helper modules) for intrinsic filtering and observer design on manifolds, with emphasis on:
-- Standard Kalman filtering on R^n (scalar, 1-D, and 2-D examples).
+- Standard Kalman filtering on $\mathbb{R}^n$ (scalar, 1-D, and 2-D examples).
 - Pre-observers and time-invariant error dynamics on Lie groups.
 - Intrinsic Extended Kalman Filter (IEKF) derivation for systems evolving on Lie groups.
 - Simulation pipelines and visualization of filtering performance and measurement likelihoods.
 
-[Notebook:](./intrinsic-DEKF/RigidBodyIntinsicEKF_DHSM.ipynb)
+[Open Notebook](./intrinsic-DEKF/RigidBodyIntinsicEKF_DHSM.ipynb)
 
 ## Contents
 - Short description of the mathematical models used (linear-Gaussian systems, CV models).
