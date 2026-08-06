@@ -74,16 +74,16 @@ LaTeX-formatted version:
 
   $$f(o_e,R_e)=\tfrac{1}{2}\Big(o_e^{T}o_e+\mathrm{trace}\big(K(I-R_e)\big)\Big),$$
   
-  with $e_R$ obtained from the matrix derivative (e.g. $\widehat{e}_R=\frac{1}{2}(R_e K-KR_e^T)$).
+  with $e_R$ obtained from the matrix derivative (e.g. $\widehat{e}_R={1}{2}(R_e K-KR_e^T)$).
 
 - Feedforward + PID controllers:
   - Translational:
 
-    $$f^u=M\ddot{o}_r+{k_P}_oe_o+ {k_D}_op_e + {k_I}_o{e_I}_o}$$
+    $$f^u=M\ddot{o}_r+{k_P}_oe_o+ {k_D}_op_e + {k_I}_o{e_I}_o$$
     
   - Rotational:
 
-    $$\tau^{u}=\big(R\dot{\Pi}_r+\omega\times R_e^{T}\pi_r\big)-\tau^{e}+k_{P_R}\,e_R + k_{D_R}\,\pi_e + k_{I_R}\,e_{I_R}.$$
+    $$\tau^{u}=\big(R\dot{\Pi}_r+\omega\times R_e^{T}\pi_r\big)-\tau^{e}+{k_P}_R\,e_R + {k_D}_R\,\pi_e + {k_I}_R\,{e_I}_R.$$
 
 - Under-actuated case: control is projected onto the actuation subspace using a projection matrix; the example uses
 
