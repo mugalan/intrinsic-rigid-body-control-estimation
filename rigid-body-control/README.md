@@ -27,18 +27,38 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
 
 ##Intrinsic PID controller (concept)
 ----------------------------------
-- Introduces a polar Morse error function f_e : G -> R with unique minimum at the identity; df_e defines the proportional term (π_e).
-- Defines an integral momentum-like state π_I with dynamics ˙π_I = π_e.
-- The intrinsic PID control law in momentum space (feedforward + feedback) takes the form:
-  f^u = feedforward_terms − k_p π_e − k_d π_e_dot − k_I π_I
-  (presented carefully in the notebook with Ad/Ad^* transformations so the law is coordinate-free).
-- Controlled error dynamics reduce to a standard-looking PID system in the Lie-group setting:
-  ˙e = ω_e · e
-  ˙π_I = π_e
-  ˙π_e = −k_p π_e − k_d ˙π_e − k_I π_I
-  (interpreted in the appropriate Lie-algebra/dual spaces).
+Below is the quoted content converted to LaTeX. I preserved your notation and added display math where appropriate. Note at the end I point out a likely typo (an equation containing $\dot{\pi}_e$ on both sides) and offer a suggested correction.
 
-##Rigid body specialization (SE(3))
+LaTeX-formatted version:
+
+- Introduces a polar Morse error function $f_e: G \to \mathbb{R}$ with unique minimum at the identity; $d f_e$ defines the proportional term ($\pi_e$).
+
+- Defines an integral momentum-like state $\pi_I$ with dynamics
+  \[
+  \dot{\pi}_I = \pi_e.
+  \]
+
+- The intrinsic PID control law in momentum space (feedforward + feedback) takes the form
+  \[
+  f^u = \text{feedforward\_terms} - k_p \,\pi_e - k_d \,\dot{\pi}_e - k_I \,\pi_I,
+  \]
+  (presented carefully in the notebook with $\operatorname{Ad}$ / $\operatorname{Ad}^*$ transformations so the law is coordinate-free).
+
+- Controlled error dynamics reduce to a standard-looking PID system in the Lie-group setting:
+  \[
+  \dot{e} = \omega_e \cdot e,\qquad
+  \dot{\pi}_I = \pi_e,\qquad
+  \dot{\pi}_e = -k_p\,\pi_e - k_d\,\dot{\pi}_e - k_I\,\pi_I,
+  \]
+  (interpreted in the appropriate Lie-algebra / dual spaces).
+
+Note (possible typo)
+- The last equation as written contains $\dot{\pi}_e$ on both sides. If the intention was the usual PID second-order form on the error momentum, the corrected form would be
+  \[
+  \ddot{\pi}_e = -k_p\,\pi_e - k_d\,\dot{\pi}_e - k_I\,\pi_I.
+  \]
+
+## Rigid body specialization (SE(3))
 ---------------------------------
 - Rigid-body states: position o ∈ R^3, orientation R ∈ SO(3), linear momentum p, angular momentum π.
 - Equations of motion (spatial representation):
