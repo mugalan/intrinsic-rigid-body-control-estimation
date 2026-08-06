@@ -68,7 +68,7 @@ LaTeX-formatted version:
 
 - Configuration error (right-invariant form):
 
-  $$(o_e,R_e)=(o_r-o,\;R_r R^{T}).$$
+  $$(o_e,R_e)=(o_r-o,R_r R^{T}).$$
 
 - Rotational error vector $e_R$ defined from the error function
 
@@ -80,10 +80,10 @@ LaTeX-formatted version:
   - Translational:
 
     $$f^{u}=M\ddot{o}_r + k_{P_o}\,e_o + k_{D_o}\,p_e + k_{I_o}\,e_{I_o}.$$
+
   - Rotational:
 
-    $$\tau^{u}=\big(R\dot{\Pi}_r+\omega\times R_e^{T}\pi_r\big)-\tau^{e}
-    +k_{P_R}\,e_R + k_{D_R}\,\pi_e + k_{I_R}\,e_{I_R}.$$
+    $$\tau^{u}=\big(R\dot{\Pi}_r+\omega\times R_e^{T}\pi_r\big)-\tau^{e}+k_{P_R}\,e_R + k_{D_R}\,\pi_e + k_{I_R}\,e_{I_R}.$$
 
 - Under-actuated case: control is projected onto the actuation subspace using a projection matrix; the example uses
 
