@@ -24,7 +24,7 @@ while the geometry and the effect of process noise enter through
 
 $$G_{k-1}=
 -\Delta T\,
-\operatorname{Ad}_{\widetilde g_{k-1}}
+\mathrm{Ad}_{\widetilde g_{k-1}}
 \Phi(-\Delta T\,\zeta_{k-1})^{-1}.$$
 
 Thus the local error dynamics recover the familiar discrete linear
