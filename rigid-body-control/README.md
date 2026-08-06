@@ -1,10 +1,10 @@
 # Intrinsic PID on Lie Groups
 
-##Overview
+## Overview
 --------
 This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementation-focused introduction to intrinsic PID control for mechanical systems evolving on Lie groups, with specialisation to rigid-body motion on SE(3). It is prepared by D. H. S. Maithripala and accompanies theoretical work on geometric PID control and almost-global tracking on Lie groups. The notebook covers the mathematical preliminaries, derives an intrinsic (coordinate-free) PID controller that operates in momentum space, and verifies the controller with numerical simulations (animated rigid-body examples).
 
-##Highlights
+## Highlights
 ----------
 - Presents Lie-group preliminaries and momentum-space formulations needed for coordinate-free control.
 - Derives an intrinsic AGAS (almost-globally asymptotically stable) PID controller defined on Lie groups.
@@ -15,7 +15,7 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
   - Example 2: Vertical stabilization for an under-actuated cube (actuation projected onto a subspace).
 - Uses a lightweight simulation helper package (git repo) for dynamics and animation.
 
-##Mathematical background (brief)
+## Mathematical background (brief)
 -------------------------------
 - Configuration space: general Lie group $G$ with Lie algebra $\mathfrak{g}$ and dual $\mathfrak{g}^*$; for rigid bodies, $G = SE(3)$.
 - Inertia: body inertia operator $\mathbb{I} : \mathfrak{g} \mapsto \mathfrak{g}^*$ and $g$-dependent inertia $\mathbb{I}_g = Ad_{g^{-1}}^* \mathbb{I} Ad_g$.
