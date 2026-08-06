@@ -64,7 +64,7 @@ LaTeX-formatted version:
   
   $$\dot{\pi}=\tau^{e}+\tau^{u}$$,
   
-  where $\omega=(\mathbb{I}_R)^{-1}\pi$ and $\mathbb{I}_R=R\,\mathbb{I}\,R^{T}$ (and $\widehat{\omega}$ is the skew matrix of $\omega$).
+  where $\omega=(\mathbb{I}_R)^{-1}\pi$ and $\mathbb{I}_R=R\mathbb{I}R^{T}$ (and $\widehat{\omega}$ is the skew matrix of $\omega$).
 
 - Configuration error (right-invariant form):
 
@@ -79,7 +79,7 @@ LaTeX-formatted version:
 - Feedforward + PID controllers:
   - Translational:
 
-    $f^{u}=M\ddot{o}_r + k_{P}\,e_o .$
+    $f^{u}=M\ddot{o}_r + k_{P_o}e_o + k_{D_o}p_e + k_{I_o}e_{I_o}.$
 
   - Rotational:
 
