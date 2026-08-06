@@ -18,11 +18,11 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
 ## Mathematical background (brief)
 -------------------------------
 - Configuration space: general Lie group $G$ with Lie algebra $\mathfrak{g}$ and dual $\mathfrak{g}^*$; for rigid bodies, $G = SE(3)$.
-- Inertia: body inertia operator $\mathbb{I} : \mathfrak{g} \mapsto \mathfrak{g}^*$ and $g$-dependent inertia $\mathbb{I}_g = Ad_{g^{-1}}^* \mathbb{I} Ad_g$.
+- Inertia: body inertia operator $\mathbb{I} : \mathfrak{g} \mapsto \mathfrak{g}^*$ and $g$-dependent inertia $\mathbb{I}_g = \mathrm{Ad}_{g^{-1}}^* \mathbb{I} \mathrm{Ad}_g$.
 - Momentum and angular velocity:
-  - $\pi \in \mathfrak{g}^*$ (spatial momentum), $\Omega \in \mathfrak{g}$ (body angular velocity), $\omega = Ad_g \Omega$ (spatial angular velocity).
-  - $\pi$ and $\omega$ related by $\pi = (Ad_g^* \mathbb{I} Ad_{g^{-1}}) \omega$.
-- Tracking error: right-invariant error $e = g_r g^{-1}$; associated velocity error $\omega_e = \omega_r − Ad_e \omega$.
+  - $\pi \in \mathfrak{g}^*$ (spatial momentum), $\Omega \in \mathfrak{g}$ (body angular velocity), $\omega = \mathrm{Ad}_g \Omega$ (spatial angular velocity).
+  - $\pi$ and $\omega$ related by $\pi = (\mathrm{Ad}_g^* \mathbb{I} \mathrm{Ad}_{g^{-1}}) \omega$.
+- Tracking error: right-invariant error $e = g_r g^{-1}$; associated velocity error $\omega_e = \omega_r − \mathrm{Ad}_e \omega$.
 - Momentum error $\pi_e$ constructed to live in the momentum space and to be consistent with the kinetic energy metric.
 
 ## Intrinsic PID controller (concept)
@@ -37,9 +37,9 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
 
 - The intrinsic PID control law in momentum space (feedforward + feedback) takes the form
   $$
-  f^u = \text{feedforward\_terms} - k_p \,\pi_e - k_d \,\dot{\pi}_e - k_I \,\pi_I,
+  f^u = \text{feedforward terms} - k_p \,\pi_e - k_d \,\dot{\pi}_e - k_I \,\pi_I,
   $$
-  (presented carefully in the notebook with $\operatorname{Ad}$ / $\operatorname{Ad}^*$ transformations so the law is coordinate-free).
+  (presented carefully in the notebook with $\mathrm{Ad}$ / $\mathrm{Ad}^*$ transformations so the law is coordinate-free).
 
 - Controlled error dynamics reduce to a standard-looking PID system in the Lie-group setting:
   $$
