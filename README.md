@@ -39,8 +39,7 @@ The estimation component develops discrete-time Kalman filtering directly on Lie
 A central viewpoint is to treat the predicted group estimate as a stochastic random variable,
 
 $$
-\widetilde g_k^-
-=
+\widetilde g_k^-=
 \widetilde g_{k-1}
 \exp\left(
 \Delta T(\zeta_{k-1}+w_{k-1})
@@ -58,8 +57,7 @@ $$
 with the Lie-group geometry and process uncertainty entering through
 
 $$
-G_{k-1}
-=
+G_{k-1}=
 -\Delta T\,
 \operatorname{Ad}_{\widetilde g_{k-1}}
 \Phi(-\Delta T\zeta_{k-1})^{-1}.
