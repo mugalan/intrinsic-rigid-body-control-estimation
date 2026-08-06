@@ -31,9 +31,7 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
 - Introduces a polar Morse error function $f_e: G \to \mathbb{R}$ with unique minimum at the identity; $d f_e$ defines the proportional term ($\pi_e$).
 
 - Defines an integral momentum-like state $\pi_I$ with dynamics
-  $$
-  \dot{\pi}_I = \pi_e.
-  $$
+  $$\dot{\pi}_I = \pi_e.$$
 
 - The intrinsic PID control law in momentum space (feedforward + feedback) takes the form
   $$
