@@ -17,17 +17,16 @@ For a left-invariant kinematic system with a compatible invariant error,
 the deterministic input shared by the true and estimated systems cancels
 from the first-order error propagation. In the discrete formulation this
 leads to the particularly simple transition
-$$
-A_{k-1}=I,
-$$
+
+$$A_{k-1}=I,$$
+
 while the geometry and the effect of process noise enter through
-$$
-G_{k-1}
-=
+
+$$G_{k-1}=
 -\Delta T\,
 \operatorname{Ad}_{\widetilde g_{k-1}}
-\Phi(-\Delta T\,\zeta_{k-1})^{-1}.
-$$
+\Phi(-\Delta T\,\zeta_{k-1})^{-1}.$$
+
 Thus the local error dynamics recover the familiar discrete linear
 Kalman-filter structure, with the Lie-group geometry appearing primarily
 through the adjoint action, exponential map, invariant output
