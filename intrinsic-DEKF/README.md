@@ -142,7 +142,7 @@ the local process-noise map is obtained as
 $$
 G_{k-1}=
 -\Delta T\,
-\operatorname{Ad}_{\widetilde g_{k-1}}
+\mathrm{Ad}_{\widetilde g_{k-1}}
 \Phi(-\Delta T\zeta_{k-1})^{-1}.
 $$
 
@@ -210,8 +210,7 @@ Runnable Python implementations demonstrate the resulting filter.
 The attitude estimator is augmented with a gyroscope-bias state,
 
 $$
-\eta_k
-=
+\eta_k=
 \begin{bmatrix}
 \eta_{R,k}\\
 \eta_{b,k}
@@ -243,7 +242,7 @@ $$
 The notebook derives:
 
 - rigid-body kinematics on $SE(3)$;
-- the $\operatorname{ad}$ and $\operatorname{Ad}$ representations;
+- the $\mathrm{ad}$ and $\mathrm{Ad}$ representations;
 - homogeneous group actions;
 - invariant landmark measurement linearizations; and
 - the corresponding DEKF matrices.
