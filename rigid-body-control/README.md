@@ -136,7 +136,7 @@ LaTeX-formatted version:
 - The error function for rotation includes a diagonal weighting K; you may tune K and PID gains to test performance and robustness.
 - Example controllers include small feedforward terms and projection for under-actuation; the notebook is a good starting point for adapting controllers to other rigid-body geometries and actuation constraints.
 
-## License / attribution
----------------------
-- Keep the original attribution to the notebook author (D. H. S. Maithripala) and cite the referenced papers when using the algorithms or results in publications.
+## License
+
+This project is licensed under the [MIT License](../LICENSE).
 
