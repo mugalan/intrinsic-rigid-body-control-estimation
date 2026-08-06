@@ -79,10 +79,8 @@ LaTeX-formatted version:
 - Feedforward + PID controllers:
   - Translational:
 
-    $$f^u=M\ddot{o}_r+{k_P}_oe_o$$
+    $$f^u=M\ddot{o}_r+{k_P}_oe_o+ {k_D}_op_e + {k_I}_o{e_I}_o}$$
     
-    $$f^u=M\ddot{o}_r + k_{P_o}e_o + k_{D_o}p_e + k_{I_o}e_{I_o}.$$
-
   - Rotational:
 
     $$\tau^{u}=\big(R\dot{\Pi}_r+\omega\times R_e^{T}\pi_r\big)-\tau^{e}+k_{P_R}\,e_R + k_{D_R}\,\pi_e + k_{I_R}\,e_{I_R}.$$
