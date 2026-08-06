@@ -38,9 +38,11 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
   (presented carefully in the notebook with $\mathrm{Ad}$ / $\mathrm{Ad}^*$ transformations so the law is coordinate-free).
 
 - Controlled error dynamics reduce to a standard-looking PID system in the Lie-group setting:
-  $$\dot{e} = \omega_e \cdot e,\qquad
-  \dot{\pi}_I = \pi_e,\qquad
-  \ddot{\pi}_e = -k_p\,\pi_e - k_d\,\dot{\pi}_e - k_I\,\pi_I,$$
+  \begin{align}
+  \dot{e} = \omega_e \cdot e,\\
+  \dot{\pi}_I = \pi_e,\\
+  \ddot{\pi}_e = -k_p\,\pi_e - k_d\,\dot{\pi}_e - k_I\,\pi_I,
+  \end{align}
   (interpreted in the appropriate Lie-algebra / dual spaces).
 
 
