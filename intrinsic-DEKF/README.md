@@ -419,7 +419,7 @@ Contributions and corrections are welcome. For reproducibility, contributions co
 
 ## License
 
-This project is licensed under the [MIT License](https://github.com/mugalan/intrinsic-rigid-body-control-estimation/LICENSE).
+This project is licensed under the [MIT License](../LICENSE).
 
 ## Contact
 
