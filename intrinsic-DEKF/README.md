@@ -119,36 +119,28 @@ The central part of the notebook derives a discrete intrinsic EKF directly from 
 
 The predicted estimate is modeled as
 
-$$
-\widetilde g_k^-
-=
+$$\widetilde g_k^-=
 \widetilde g_{k-1}
 \exp\left(
 \Delta T(\zeta_{k-1}+w_{k-1})
-\right),
-$$
+\right),$$
 
 while the physical kinematics remain
 
-$$
-g_k
-=
+$$g_k=
 g_{k-1}\exp(\Delta T\zeta_{k-1}).
 $$
 
 Using an invariant error, the Baker--Campbell--Hausdorff expansion, and
 
-$$
-J_l(\Delta T\zeta)
-=
+$$J_l(\Delta T\zeta)=
 \Phi(-\Delta T\zeta)^{-1},
 $$
 
 the local process-noise map is obtained as
 
 $$
-G_{k-1}
-=
+G_{k-1}=
 -\Delta T\,
 \operatorname{Ad}_{\widetilde g_{k-1}}
 \Phi(-\Delta T\zeta_{k-1})^{-1}.
