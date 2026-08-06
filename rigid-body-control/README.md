@@ -25,38 +25,30 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
 - Tracking error: right-invariant error $e = g_r g^{-1}$; associated velocity error $\omega_e = \omega_r − Ad_e \omega$.
 - Momentum error $\pi_e$ constructed to live in the momentum space and to be consistent with the kinetic energy metric.
 
-##Intrinsic PID controller (concept)
+## Intrinsic PID controller (concept)
 ----------------------------------
-Below is the quoted content converted to LaTeX. I preserved your notation and added display math where appropriate. Note at the end I point out a likely typo (an equation containing $\dot{\pi}_e$ on both sides) and offer a suggested correction.
-
-LaTeX-formatted version:
 
 - Introduces a polar Morse error function $f_e: G \to \mathbb{R}$ with unique minimum at the identity; $d f_e$ defines the proportional term ($\pi_e$).
 
 - Defines an integral momentum-like state $\pi_I$ with dynamics
-  \[
+  $$
   \dot{\pi}_I = \pi_e.
-  \]
+  $$
 
 - The intrinsic PID control law in momentum space (feedforward + feedback) takes the form
-  \[
+  $$
   f^u = \text{feedforward\_terms} - k_p \,\pi_e - k_d \,\dot{\pi}_e - k_I \,\pi_I,
-  \]
+  $$
   (presented carefully in the notebook with $\operatorname{Ad}$ / $\operatorname{Ad}^*$ transformations so the law is coordinate-free).
 
 - Controlled error dynamics reduce to a standard-looking PID system in the Lie-group setting:
-  \[
+  $$
   \dot{e} = \omega_e \cdot e,\qquad
   \dot{\pi}_I = \pi_e,\qquad
-  \dot{\pi}_e = -k_p\,\pi_e - k_d\,\dot{\pi}_e - k_I\,\pi_I,
-  \]
+  \ddot{\pi}_e = -k_p\,\pi_e - k_d\,\dot{\pi}_e - k_I\,\pi_I,
+  $$
   (interpreted in the appropriate Lie-algebra / dual spaces).
 
-Note (possible typo)
-- The last equation as written contains $\dot{\pi}_e$ on both sides. If the intention was the usual PID second-order form on the error momentum, the corrected form would be
-  \[
-  \ddot{\pi}_e = -k_p\,\pi_e - k_d\,\dot{\pi}_e - k_I\,\pi_I.
-  \]
 
 ## Rigid body specialization (SE(3))
 ---------------------------------
