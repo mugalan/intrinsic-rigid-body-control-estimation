@@ -55,43 +55,43 @@ LaTeX-formatted version:
 - Rigid-body states: $o\in\mathbb{R}^3$ (position), $R\in\mathrm{SO}(3)$ (orientation), linear momentum $p$, angular momentum $\pi$.
 
 - Equations of motion (spatial representation):
-  $$
-  \dot{o}=\frac{1}{M}p,\qquad
-  \dot{R}=\widehat{\omega}\,R,\qquad
-  \dot{p}=f^{e}+f^{u},\qquad
-  \dot{\pi}=\tau^{e}+\tau^{u},
-  $$
+
+  $$\dot{o}=\frac{1}{M}p$$,
+  
+  $$\dot{R}=\widehat{\omega}\,R$$,
+  
+  $$\dot{p}=f^{e}+f^{u}$$,
+  
+  $$\dot{\pi}=\tau^{e}+\tau^{u}$$,
+  
   where $\omega=(\mathbb{I}_R)^{-1}\pi$ and $\mathbb{I}_R=R\,\mathbb{I}\,R^{T}$ (and $\widehat{\omega}$ is the skew matrix of $\omega$).
 
 - Configuration error (right-invariant form):
-  $$
-  (o_e,R_e)=(o_r-o,\;R_r R^{T}).
-  $$
+
+  $$(o_e,R_e)=(o_r-o,\;R_r R^{T}).$$
 
 - Rotational error vector $e_R$ defined from the error function
-  $$
-  f(o_e,R_e)=\tfrac{1}{2}\Big(o_e^{T}o_e+\mathrm{trace}\big(K(I-R_e)\big)\Big),
-  $$
+
+  $$f(o_e,R_e)=\tfrac{1}{2}\Big(o_e^{T}o_e+\mathrm{trace}\big(K(I-R_e)\big)\Big),$$
+  
   with $e_R$ obtained from the matrix derivative (e.g. $\widehat{e}_R=\tfrac{1}{2}(R_eK-KR_e^{T})$).
 
 - Feedforward + PID controllers:
   - Translational:
-    $$
-    f^{u}=M\ddot{o}_r + k_{P_o}\,e_o + k_{D_o}\,p_e + k_{I_o}\,e_{I_o}.
-    $$
+
+    $$f^{u}=M\ddot{o}_r + k_{P_o}\,e_o + k_{D_o}\,p_e + k_{I_o}\,e_{I_o}.$$
   - Rotational:
-    $$
-    \tau^{u}=\big(R\dot{\Pi}_r+\omega\times R_e^{T}\pi_r\big)-\tau^{e}
-    +k_{P_R}\,e_R + k_{D_R}\,\pi_e + k_{I_R}\,e_{I_R}.
-    $$
+
+    $$\tau^{u}=\big(R\dot{\Pi}_r+\omega\times R_e^{T}\pi_r\big)-\tau^{e}
+    +k_{P_R}\,e_R + k_{D_R}\,\pi_e + k_{I_R}\,e_{I_R}.$$
 
 - Under-actuated case: control is projected onto the actuation subspace using a projection matrix; the example uses
-  $$
-  P=-\widehat{e}_3^{2}
-  $$
+
+  $$P=-\widehat{e}_3^{2}$$
+  
   (projecting the torque control onto the allowed actuation axes).
 
-##Implementation & simulation (practical)
+## Implementation & simulation (practical)
 --------------------------------------
 - The notebook uses numpy, scipy, sympy and plotly for computations and visualization.
 - A simulation helper package (rigid-body-sim) is installed from GitHub in the notebook via:
@@ -111,12 +111,12 @@ LaTeX-formatted version:
   - Example 1: fully-actuated cube simulation using dt = 0.01, T = 50s, animations produced.
   - Example 2: under-actuated cube using dt = 0.2, T = 20s, animations produced after projecting the control torques.
 
-##Examples included
+## Examples included
 -----------------
 - Example #1: Trajectory tracking of a fully actuated cube pivoted at a vertex. Demonstrates tracking and animated visualization of the cube following a prescribed rotational reference. Uses a full torque actuator model.
 - Example #2: Vertical stabilization of an under-actuated cube pivoted at a vertex. Demonstrates projecting the control action onto allowed actuation axes (underactuation) to achieve stabilization.
 
-##How to run
+## How to run
 ----------
 1. Install Python 3.8+ and standard scientific packages (numpy, scipy, sympy, plotly).
 2. From the notebook, install the helper package:
@@ -124,19 +124,19 @@ LaTeX-formatted version:
 3. Open Intrinsic_PID_on_Lie_Groups.ipynb in Jupyter / JupyterLab or on Colab (the notebook includes a Colab badge link).
 4. Execute cells top-to-bottom. Simulations produce interactive Plotly animations and figures.
 
-##Key references
+## Key references
 --------------
 - D. H. S. Maithripala, Jordan M. Berg, "An intrinsic PID controller for mechanical systems on Lie groups", Automatica, 2015.
 - Rama Seshan Chandrasekaran, Ravi N. Banavar, Arun D. Mahindrakar, D. H. S. Maithripala, "Geometric PID controller for stabilization of nonholonomic mechanical systems on Lie groups", Automatica, 2024.
 - D. H. S. Maithripala, J. M. Berg and W. P. Dayawansa, "Almost-global tracking of simple mechanical systems on a general class of Lie Groups," IEEE TAC.
 
-##Notes & suggestions
+## Notes & suggestions
 -------------------
 - The notebook emphasizes coordinate-free controller design in momentum space; this makes the controller naturally compatible with different coordinate representations (e.g., quaternions, rotation matrices).
 - The error function for rotation includes a diagonal weighting K; you may tune K and PID gains to test performance and robustness.
 - Example controllers include small feedforward terms and projection for under-actuation; the notebook is a good starting point for adapting controllers to other rigid-body geometries and actuation constraints.
 
-##License / attribution
+## License / attribution
 ---------------------
 - Keep the original attribution to the notebook author (D. H. S. Maithripala) and cite the referenced papers when using the algorithms or results in publications.
 
