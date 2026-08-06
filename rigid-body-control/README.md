@@ -79,7 +79,7 @@ LaTeX-formatted version:
 - Feedforward + PID controllers:
   - Translational:
 
-$$f^u=M\ddot{o}_r$$
+    $$f^u=M\ddot{o}_r$$
     
     $$f^u=M\ddot{o}_r + k_{P_o}e_o + k_{D_o}p_e + k_{I_o}e_{I_o}.$$
 
