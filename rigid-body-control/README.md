@@ -18,7 +18,7 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
 ## Mathematical background (brief)
 -------------------------------
 - Configuration space: general Lie group $G$ with Lie algebra $\mathfrak{g}$ and dual $\mathfrak{g}^*$; for rigid bodies, $G = SE(3)$.
-- Inertia: body inertia operator $\mathbb{I} : \mathfrak{g} \mapsto \mathfrak{g}^*$ and $g$-dependent inertia $\mathbb{I}_g = \mathrm{Ad}_{g^{-1}}^* \mathbb{I} \mathrm{Ad}_g$.
+- Inertia: body inertia operator $\mathbb{I} : \mathfrak{g} \to \mathfrak{g}^*$ and $g$-dependent inertia $\mathbb{I}_g = \mathrm{Ad}_{g^{-1}}^* \mathbb{I} \mathrm{Ad}_g$.
 - Momentum and angular velocity:
   - $\pi \in \mathfrak{g}^*$ (spatial momentum), $\Omega \in \mathfrak{g}$ (body angular velocity), $\omega = \mathrm{Ad}_g \Omega$ (spatial angular velocity).
   - $\pi$ and $\omega$ related by $\pi = (\mathrm{Ad}_g^* \mathbb{I} \mathrm{Ad}_{g^{-1}}) \omega$.
@@ -52,19 +52,46 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
 
 ## Rigid body specialization (SE(3))
 ---------------------------------
-- Rigid-body states: position o ∈ R^3, orientation R ∈ SO(3), linear momentum p, angular momentum π.
+LaTeX-formatted version:
+
+- Rigid-body states: $o\in\mathbb{R}^3$ (position), $R\in\mathrm{SO}(3)$ (orientation), linear momentum $p$, angular momentum $\pi$.
+
 - Equations of motion (spatial representation):
-  ˙o = p / M
-  ˙R = ω̂ R
-  ˙p = f^e + f^u
-  ˙π = τ^e + τ^u
-  where ω = (I_R)^{-1} π and I_R = R I R^T.
-- Configuration error (right-invariant form): (o_e, R_e) = (o_r − o, R_r R^T).
-- Defines rotational error vector e_R from an error function f(o_e, R_e) = 1/2 (o_e^T o_e + trace(K(I−R_e))).
+  $$
+  \dot{o}=\frac{1}{M}p,\qquad
+  \dot{R}=\widehat{\omega}\,R,\qquad
+  \dot{p}=f^{e}+f^{u},\qquad
+  \dot{\pi}=\tau^{e}+\tau^{u},
+  $$
+  where $\omega=(\mathbb{I}_R)^{-1}\pi$ and $\mathbb{I}_R=R\,\mathbb{I}\,R^{T}$ (and $\widehat{\omega}$ is the skew matrix of $\omega$).
+
+- Configuration error (right-invariant form):
+  $$
+  (o_e,R_e)=(o_r-o,\;R_r R^{T}).
+  $$
+
+- Rotational error vector $e_R$ defined from the error function
+  $$
+  f(o_e,R_e)=\tfrac{1}{2}\Big(o_e^{T}o_e+\mathrm{trace}\big(K(I-R_e)\big)\Big),
+  $$
+  with $e_R$ obtained from the matrix derivative (e.g. $\widehat{e}_R=\tfrac{1}{2}(R_eK-KR_e^{T})$).
+
 - Feedforward + PID controllers:
-  - Translational: f^u = M ö_r + k_Po e_o + k_Do p_e + k_Io e_Io
-  - Rotational: τ^u = (R ˙Π_r + ω × R_e^T π_r) − τ^e + k_PR e_R + k_DR π_e + k_IR e_IR
-- Under-actuated case: control projected onto actuation subspace using a projection matrix (example uses projection P = −ê_3^2 for torque actuation about certain axes).
+  - Translational:
+    $$
+    f^{u}=M\ddot{o}_r + k_{P_o}\,e_o + k_{D_o}\,p_e + k_{I_o}\,e_{I_o}.
+    $$
+  - Rotational:
+    $$
+    \tau^{u}=\big(R\dot{\Pi}_r+\omega\times R_e^{T}\pi_r\big)-\tau^{e}
+    +k_{P_R}\,e_R + k_{D_R}\,\pi_e + k_{I_R}\,e_{I_R}.
+    $$
+
+- Under-actuated case: control is projected onto the actuation subspace using a projection matrix; the example uses
+  $$
+  P=-\widehat{e}_3^{2}
+  $$
+  (projecting the torque control onto the allowed actuation axes).
 
 ##Implementation & simulation (practical)
 --------------------------------------
