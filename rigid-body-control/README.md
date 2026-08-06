@@ -21,7 +21,7 @@ This notebook (Intrinsic_PID_on_Lie_Groups.ipynb) presents a concise, implementa
 - Inertia: body inertia operator $\mathbb{I} : \mathfrak{g}  \to \mathfrak{g}^\star$ and $g$-dependent inertia $I_g = {Ad}_{g^{-1}}^\star \mathbb{I} {Ad}_g$.
 - Momentum and angular velocity:
   - $\pi \in \mathfrak{g}^\star$ (spatial momentum), $\Omega \in \mathfrak{g}$ (body angular velocity), $\omega = \mathrm{Ad}_g \Omega$ (spatial angular velocity).
-  - $\pi$ and $\omega$ related by $\pi = (\mathrm{Ad}_g^* \mathbb{I} \mathrm{Ad}_{g^{-1}}) \omega$.
+  - $\pi$ and $\omega$ related by $\pi = ({Ad}_g^* \mathbb{I} {Ad}_{g^{-1}}) \omega$.
 - Tracking error: right-invariant error $e = g_r g^{-1}$; associated velocity error $\omega_e = \omega_r − \mathrm{Ad}_e \omega$.
 - Momentum error $\pi_e$ constructed to live in the momentum space and to be consistent with the kinetic energy metric.
 
