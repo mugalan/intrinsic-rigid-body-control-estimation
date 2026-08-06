@@ -77,120 +77,359 @@ and practical rigid-body sensor-fusion problems.
 [Open Notebook](./intrinsic-DEKF/RigidBodyIntinsicEKF_DHSM.ipynb)
 
 ## Contents
-- Short description of the mathematical models used (linear-Gaussian systems, CV models).
-- Worked 1-D and 2-D constant-velocity examples with simulation, filtering, and visualization.
-- Theory of pre-observers on Lie groups (left-/right-invariant outputs) and how to build filters with autonomous error dynamics.
-- Continuous-time intrinsic EKF derivation and discussion about log-error dynamics and linearization.
-- Simulation code using a small helper package exposed as `sims` (installed in the notebook).
 
-## Key learning goals
-- Understand the discrete-time Kalman filter in R^n and its error dynamics.
-- See practical simulations for scalar and 2D CV models (process/measurement noise modeling).
-- Learn how to construct observers on Lie groups that make the estimation error autonomous (left/right invariance).
-- Learn the intrinsic EKF derivation and how to apply it to systems with Lie-group structure.
-- Reproduce visualizations and experiment with parameters (dt, process noise, measurement noise).
+The notebook develops the material progressively from classical Kalman filtering to intrinsic estimation on Lie groups.
 
-## Quick start (Colab)
-1. Open the notebook directly in Google Colab:
-   - https://colab.research.google.com/github/mugalan/intrinsic-rigid-body-control-estimation/blob/main/intrinsic-DEKF/RigidBodyIntinsicEKF_DHSM.ipynb
-2. Run the notebook cells. The notebook installs an auxiliary package via:
-   ```
-   !pip install --quiet "git+https://github.com/mugalan/classical-mechanics-from-a-geometric-point-of-view.git#egg=rigid-body-sim"
-   ```
-   This provides `sims` used for simulation, plotting, and helper classes.
+### 1. Kalman filtering in Euclidean space
 
-## Quick start (local)
-1. Clone the repo:
-   ```
-   git clone https://github.com/mugalan/intrinsic-rigid-body-control-estimation.git
-   cd intrinsic-rigid-body-control-estimation
-   ```
-2. Create and activate a virtual environment (recommended):
-   ```
-   python -m venv .venv
-   source .venv/bin/activate      # Linux / macOS
-   .venv\Scripts\activate         # Windows (PowerShell/CMD)
-   ```
-3. Install core Python dependencies:
-   ```
-   pip install numpy scipy pandas sympy plotly ipython jupyterlab
-   pip install "git+https://github.com/mugalan/classical-mechanics-from-a-geometric-point-of-view.git#egg=rigid-body-sim"
-   ```
-   If you prefer pinned versions, create a requirements.txt and pin as needed.
-4. Launch JupyterLab or Jupyter Notebook and open:
-   ```
-   intrinsic-DEKF/RigidBodyIntinsicEKF_DHSM.ipynb
-   jupyter lab
-   ```
-5. Run the notebook cells interactively.
+The notebook begins with the discrete linear-Gaussian system
 
-Dependencies
-- Python 3.8+ (tested with Python 3.9+)
-- numpy
-- scipy
-- pandas
-- sympy
-- plotly (for visualization)
-- IPython (display helpers)
-- A helper package installed from GitHub:
-  - git+https://github.com/mugalan/classical-mechanics-from-a-geometric-point-of-view.git#egg=rigid-body-sim
-    - provides the `sims` module used to construct LinearGaussianSystemSyms objects and plotting utilities.
+$$
+x_k=A_{k-1}x_{k-1}+G_{k-1}w_{k-1},
+\qquad
+y_k=H_kx_k+z_k,
+$$
 
-## Notebook structure and section summary
-- Imports and setup
-  - Load scientific and plotting libraries; install and import `sims` helper package.
-- The Kalman Filter on R^n
-  - Formal statement of the linear-Gaussian model, prediction and update equations, and error dynamics.
-- 1-D Example
-  - Scalar constant-velocity system, closed-form Kalman filter recursion, and an animation function to visualize measurement likelihoods (Gaussian measurement distributions).
-  - Helper: `make_cv1d` to build a scalar CV model with process/measurement noise.
-- Simulation 2D-example
-  - Two-dimensional CV model (states: p_x, p_y, v_x, v_y).
-  - Construction of discrete-time matrices (A, G) and process covariance Q for random acceleration modeling.
-  - Helper: `make_cv2d` which returns a `sims.LinearGaussianSystemSyms` instance configured for 2D CV experiments.
-  - Scripts for simulating measurements and running standard KF with plotting utilities.
-- Discrete-Time Pre-Observers on Lie Groups with Time-Invariant Error Dynamics
-  - Theory of left- and right-invariant outputs and observer construction with innovations designed to yield autonomous error dynamics.
-- Intrinsic Extended Kalman Filter on Lie Groups
-  - Continuous-time intrinsic EKF derivation: state and measurement models on Lie groups, definition of log-error, linearization, Riccati equation, and conditions for convergence (uniform observability).
-  - Discussion of exact log-error dynamics and higher-order residual terms from the Lie algebra exponential maps.
+and develops:
 
-## Examples provided in the notebook
-- Simulated scalar KF: `sys.animate_measurement_gaussians_scalar(...)`
-- Simulated 2D CV filtering pipeline:
-  - `sys = make_cv2d(...)`
-  - `X2, Y2 = sys.simulate(T=300)`
-  - `M, Yhat = sys.filter_with_kf_and_plot(...)` — runs KF and plots estimates vs measurements.
-- The notebook contains runnable code cells to reproduce simulations and figures. Tweak dt, q, r, and P0 to observe filter behavior.
+- Gaussian prediction and conditioning;
+- the discrete Kalman filter recursion;
+- estimation-error dynamics and covariance propagation;
+- scalar examples; and
+- two-dimensional constant-velocity simulations and visualizations.
 
-## Reproducibility and tips
-- Use the notebook-provided RNG `seed` argument for reproducible simulations.
-- If running headless (no browser), replace interactive Plotly display with saving HTML files:
-  - Many helper functions accept a `save_html_path` argument to write interactive plots to disk.
-- If you encounter missing `sims` module errors, ensure the pip install command ran successfully, or install locally using:
-  ```
-  pip install -e path/to/local/classical-mechanics-from-a-geometric-point-of-view
-  ```
-  or reinstall using the git+https URL.
+These sections establish the probabilistic structure that is subsequently transferred to Lie groups.
 
+### 2. Lie-group kinematics and invariant estimation errors
 
+The required geometric machinery is introduced for a Lie group $G$ with Lie algebra $\mathfrak g$, including:
 
-Citation and references
-- The repository includes concise derivations and references to standard multivariate Gaussian conditioning and EKF theory. For implementation details and further reading:
-  - Standard textbooks on estimation and Kalman filtering (e.g., Simon, "Optimal State Estimation"; Maybeck, "Stochastic Models and Estimation").
-  - Research literature on invariant filtering and intrinsic EKFs on Lie groups (e.g., Barrau & Bonnabel, 2017 papers on invariant filters).
-  - See the in-notebook references and the `classical-mechanics-from-a-geometric-point-of-view` repository for geometric mechanics background.
+- the exponential and logarithm maps;
+- the adjoint and infinitesimal adjoint representations;
+- linear group actions;
+- left- and right-invariant systems;
+- left- and right-invariant estimation errors; and
+- invariant output errors.
 
-Contributing
-- Pull requests are welcome. Please:
-  - Add reproducible notebooks or scripts, including seeds and explicit parameters.
-  - Keep notebooks reasonably sized; move long derivations to markdown or separate .md files when possible.
-  - Add tests or small scripts to reproduce key figures.
+The emphasis is on introducing only the geometry required to construct the filter.
 
-License
-- MIT LICENSE
+### 3. Intrinsic discrete EKF on Lie groups
 
-Contact
-- Repository owner: mugalan@gmail.com
-- For questions related to the notebooks or reproducing results, open an issue in this repository with the notebook path and error details.
+The central part of the notebook derives a discrete intrinsic EKF directly from a stochastic prediction model on the Lie group.
 
+The predicted estimate is modeled as
+
+$$
+\widetilde g_k^-
+=
+\widetilde g_{k-1}
+\exp\left(
+\Delta T(\zeta_{k-1}+w_{k-1})
+\right),
+$$
+
+while the physical kinematics remain
+
+$$
+g_k
+=
+g_{k-1}\exp(\Delta T\zeta_{k-1}).
+$$
+
+Using an invariant error, the Baker--Campbell--Hausdorff expansion, and
+
+$$
+J_l(\Delta T\zeta)
+=
+\Phi(-\Delta T\zeta)^{-1},
+$$
+
+the local process-noise map is obtained as
+
+$$
+G_{k-1}
+=
+-\Delta T\,
+\operatorname{Ad}_{\widetilde g_{k-1}}
+\Phi(-\Delta T\zeta_{k-1})^{-1}.
+$$
+
+A key consequence is that the common deterministic kinematic input cancels from the first-order invariant error propagation, giving
+
+$$
+A_{k-1}=I.
+$$
+
+The resulting local recursion therefore has the same structural form as the ordinary discrete Kalman filter, while the geometry is carried by the group exponential, adjoint representation, invariant measurement linearization, and process-noise Jacobian.
+
+### 4. Discrete-time invariant pre-observers
+
+The notebook develops discrete-time pre-observers for outputs induced by left and right group actions.
+
+This section examines:
+
+- observer corrections applied on the left or right;
+- the corresponding invariant error definitions;
+- trajectory-independent error dynamics;
+- the role of invariant innovation functions; and
+- the conditions under which the error dynamics become fully autonomous.
+
+This provides an observer-theoretic interpretation of the invariant structures used by the DEKF.
+
+### 5. Continuous-time intrinsic EKF
+
+For comparison, the continuous-time intrinsic EKF is developed using the logarithmic invariant error.
+
+Topics include:
+
+- exact group-error dynamics;
+- log-error dynamics on the Lie algebra;
+- first-order linearization;
+- Riccati covariance propagation;
+- invariant measurement linearization; and
+- local convergence and observability considerations.
+
+The continuous- and discrete-time formulations are compared to clarify why the choice of invariant error can dramatically simplify the corresponding linearized dynamics.
+
+### 6. Attitude estimation on $SO(3)$
+
+The general construction is specialized to rigid-body attitude estimation.
+
+The measurement model uses known inertial directions observed in the body frame,
+
+$$
+y_{i,k}=R_k^\top e_i+z_{i,k}.
+$$
+
+The notebook derives explicitly:
+
+- the $SO(3)$ invariant error;
+- the invariant measurement residual;
+- the measurement matrix $H_k$;
+- the process-noise matrix $G_{k-1}$;
+- the $SO(3)$ left Jacobian;
+- covariance prediction and correction; and
+- the group-valued attitude update.
+
+Runnable Python implementations demonstrate the resulting filter.
+
+### 7. $SO(3)$ IMU fusion with gyroscope bias
+
+The attitude estimator is augmented with a gyroscope-bias state,
+
+$$
+\eta_k
+=
+\begin{bmatrix}
+\eta_{R,k}\\
+\eta_{b,k}
+\end{bmatrix}
+\in\mathbb R^6.
+$$
+
+The notebook develops:
+
+- bias-corrected gyro propagation;
+- bias random-walk modeling;
+- the augmented $A_{k-1}$, $G_{k-1}$, and $H_k$ matrices;
+- attitude and bias correction;
+- covariance propagation; and
+- numerical sensor-fusion experiments.
+
+The implementation can be used directly to investigate the effects of IMU noise, measurement noise, bias covariance, and filter tuning.
+
+A single gravity-direction measurement constrains roll and pitch but leaves rotation about the gravity direction unobservable; full attitude observability requires an additional non-collinear reference direction.
+
+### 8. Rigid-body estimation on $SE(3)$
+
+The construction is next specialized to
+
+$$
+SE(3)=SO(3)\rtimes\mathbb R^3.
+$$
+
+The notebook derives:
+
+- rigid-body kinematics on $SE(3)$;
+- the $\operatorname{ad}$ and $\operatorname{Ad}$ representations;
+- homogeneous group actions;
+- invariant landmark measurement linearizations; and
+- the corresponding DEKF matrices.
+
+A landmark-aided localization example illustrates pose estimation from known fixed landmarks.
+
+### 9. IMU--GNSS navigation
+
+The final applications extend the construction to inertial navigation using attitude, velocity, and position.
+
+The shifted variables
+
+$$
+v_s(t)=v(t)+gt\,e_3,
+\qquad
+o_s(t)=o(t)+\frac{1}{2}gt^2e_3
+$$
+
+are introduced so that
+
+$$
+\dot v_s=RA,
+\qquad
+\dot o_s=v_s.
+$$
+
+This absorbs the deterministic gravitational acceleration into the coordinate transformation and produces a particularly clean invariant error structure.
+
+The notebook develops models for:
+
+- attitude propagation from gyroscope measurements;
+- velocity propagation from accelerometer measurements;
+- position integration;
+- GNSS position and velocity observations;
+- gyroscope bias;
+- accelerometer bias;
+- bias random walks;
+- the augmented $15$-dimensional local error state; and
+- the corresponding $A_{k-1}$, $G_{k-1}$, and $H_k$ matrices.
+
+This provides a direct path from the abstract Lie-group derivation to a practical IMU--GNSS navigation architecture.
+
+## Key learning outcomes
+
+After working through the notebook, the reader should be able to:
+
+- derive the discrete Kalman filter from Gaussian prediction and conditioning;
+- formulate estimation errors intrinsically on a Lie group;
+- distinguish left- and right-invariant errors and outputs;
+- construct discrete invariant pre-observers;
+- understand why compatible invariant errors can eliminate the deterministic trajectory from the first-order error dynamics;
+- derive the process-noise Jacobian using the BCH formula and Lie-group Jacobians;
+- recognize the correspondence between the discrete linear KF and the intrinsic DEKF;
+- specialize the general construction to $SO(3)$ and $SE(3)$;
+- incorporate IMU biases through augmented error states; and
+- implement attitude, pose, and IMU--GNSS filters numerically.
+
+## Computational examples
+
+The notebook contains executable Python examples rather than only symbolic derivations. These include:
+
+- scalar Kalman-filter simulations;
+- two-dimensional constant-velocity tracking;
+- visualization of predictions, measurements, and covariance evolution;
+- $SO(3)$ attitude estimation from vector observations;
+- IMU attitude estimation;
+- joint attitude and gyroscope-bias estimation; and
+- experiments illustrating the effects of process and measurement covariance tuning.
+
+The simulations use the `sims` utilities from the
+[`classical-mechanics-from-a-geometric-point-of-view`](https://github.com/mugalan/classical-mechanics-from-a-geometric-point-of-view)
+repository.
+
+## Quick start
+
+### Google Colab
+
+Open the notebook directly in Google Colab:
+
+[Open in Google Colab](https://colab.research.google.com/github/mugalan/intrinsic-rigid-body-control-estimation/blob/main/intrinsic-DEKF/RigidBodyIntinsicEKF_DHSM.ipynb)
+
+The notebook installs the required helper package using
+
+```bash
+pip install --quiet "git+https://github.com/mugalan/classical-mechanics-from-a-geometric-point-of-view.git#egg=rigid-body-sim"
+```
+
+and can then be executed sequentially.
+
+### Local installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/mugalan/intrinsic-rigid-body-control-estimation.git
+cd intrinsic-rigid-body-control-estimation
+```
+
+Create and activate a virtual environment:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+On Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+Install the required packages:
+
+```bash
+pip install numpy scipy pandas sympy plotly ipython jupyterlab
+pip install "git+https://github.com/mugalan/classical-mechanics-from-a-geometric-point-of-view.git#egg=rigid-body-sim"
+```
+
+Launch JupyterLab:
+
+```bash
+jupyter lab
+```
+
+and open
+
+```text
+intrinsic-DEKF/RigidBodyIntinsicEKF_DHSM.ipynb
+```
+
+## Dependencies
+
+The principal dependencies are:
+
+- Python;
+- NumPy;
+- SciPy;
+- Pandas;
+- SymPy;
+- Plotly;
+- IPython/Jupyter; and
+- `rigid-body-sim`, providing the `sims` simulation and visualization utilities used by the notebook.
+
+## Reproducibility
+
+Where applicable, the numerical examples expose random seeds and the principal filter parameters. Readers are encouraged to vary
+
+- the sampling interval $\Delta t$;
+- process-noise covariance;
+- measurement-noise covariance;
+- initial covariance; and
+- bias random-walk covariance
+
+to examine their effect on estimation accuracy, convergence, and responsiveness.
+
+## References and background
+
+The notebook builds on standard results from Kalman filtering, estimation theory, differential geometry, and invariant filtering on Lie groups. References to the relevant literature are provided within the notebook.
+
+Useful background includes:
+
+- classical linear and extended Kalman filtering;
+- invariant and intrinsic filtering on Lie groups;
+- invariant observer theory;
+- rigid-body kinematics on $SO(3)$ and $SE(3)$; and
+- inertial-navigation and sensor-fusion models.
+
+For the geometric-mechanics and simulation infrastructure used by the examples, see
+[`classical-mechanics-from-a-geometric-point-of-view`](https://github.com/mugalan/classical-mechanics-from-a-geometric-point-of-view).
+
+## Contributing
+
+Contributions and corrections are welcome. For reproducibility, contributions containing numerical examples should include explicit parameters and random seeds where appropriate.
+
+## License
+
+MIT License
+
+## Contact
+
+For questions, corrections, or problems reproducing an example, please open an issue in this repository.
